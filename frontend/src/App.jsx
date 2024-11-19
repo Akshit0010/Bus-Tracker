@@ -11,6 +11,7 @@ import Map from './components/Map';
 import "leaflet/dist/leaflet.css";
 import Login from './components/Login';
 import Register from './components/Register';
+import { ToastContainer } from 'react-toastify';
 
 
 const router=createBrowserRouter([
@@ -32,6 +33,7 @@ function App() {
   return (
     <>
     <RouterProvider router={router}/>
+    <ToastContainer />
       
       
     </>
