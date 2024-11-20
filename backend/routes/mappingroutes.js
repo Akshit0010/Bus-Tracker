@@ -55,7 +55,7 @@ Router.post('/login-user', async (req, res) => {
 // Route to fetch all users
 Router.get('/login-user', async (req, res) => {
     try {
-        const users = await loginmodel.find({}, {start:1,phone:1,busno:1, latitude: 1, longitude: 1 });
+        const users = await loginmodel.find({}, {start:1,phone:1,busno:1,end:1, latitude: 1, longitude: 1 });
          // Fetch all documents
         // Log the data to the console
         res.status(200).json(users); // Send data as JSON response

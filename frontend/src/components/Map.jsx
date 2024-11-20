@@ -15,8 +15,8 @@ const Map = () => {
   });
   const [data, setdata] = useState([])
   const [centre, setCentre] = useState({ lat: 0, lng: 0 });
-  const [marker, setmarker] = useState({ lat: 0, lng: 0 });
   const [usercoord,setusercoord]=useState({})
+  const[withoutlogin,setwithoutlogin]=useState(true)
   const getlogindata = async () => {
     const response = await fetch("http://localhost:3000/login-user")
     const data = await response.json()
@@ -46,6 +46,7 @@ const getusercoord = async () => {
         console.log('No token')
     }
     else {
+       setwithoutlogin(false)
         const data = getTokenData(token)
         const {username}=data
         const response = await fetch("http://localhost:3000/login-coord", { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: username }) })
@@ -74,6 +75,7 @@ const getusercoord = async () => {
 
     return null;
   };
+
   // Custom hook to trigger map update on center change
   const zoom_level = 10;
   const getCurrentLocation = () => {
@@ -83,6 +85,7 @@ const getusercoord = async () => {
           const { latitude, longitude } = position.coords;
           setCentre({ lat: latitude, lng: longitude });
           setusercoord({longitude:longitude,latitude:latitude})
+          console.log(latitude,longitude)
           updatecoord()
         },
         (error) => {
@@ -129,14 +132,24 @@ const getusercoord = async () => {
     <MapContainer key={JSON.stringify(data)} center={centre} zoom={zoom_level} style={{ height: "100vh", width: "100%" }}>
     <TileLayer url={Map_details.maptiler.url} attribution={Map_details.maptiler.attribution} />
     <UpdateMapCenter centre={centre} />
+    {withoutlogin===true && 
+      <Marker position={centre} >
+      <Popup>
+      Your location
+      </Popup>
+
+    </Marker>
+      }
     {data.map((item, index) => {
         const mark = [item.latitude, item.longitude];
         return (
             <Marker key={index} position={mark} icon={busIcon}>
                 <Popup><li>
                   <ul>Starting:{item.start}</ul>
+                  <ul>Destination:{item.end}</ul>
                   <ul>Contact:{item.phone}</ul>
                   <ul>Bus number:{item.busno}</ul>
+                  
                   </li></Popup>
             </Marker>
         );
