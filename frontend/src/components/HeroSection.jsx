@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { useState } from 'react';
+
 function HeroSection() {
+   
+    
+
+
     const routes = [
         "Avenue Road",
         "Agra Expressway",
@@ -18,7 +23,7 @@ function HeroSection() {
     ];
     const [searchroute, setsearchroute] = useState('')
     const [filterroutes, setfilterroutes] = useState([])
-    const [showdropdown,setshowdropdown]=useState(false)
+    const [showdropdown, setshowdropdown] = useState(false)
     const handlechange = (e) => {
         const input = e.target.value;
         setsearchroute(input)
@@ -31,7 +36,7 @@ function HeroSection() {
         setfilterroutes([])
         setshowdropdown(false)
     }
-    
+
     return (
         <>
             <div
@@ -116,7 +121,7 @@ function HeroSection() {
                                         <div
                                             key={index}
                                             onClick={() => additem(item)}
-                                            
+
                                             className="cursor-pointer p-2 hover:bg-gray-200"
                                         >
                                             {item}

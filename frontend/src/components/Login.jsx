@@ -23,9 +23,17 @@ const Login = () => {
   const handlechange=(e)=>{
     setform({...form,[e.target.name]:e.target.value})
   }
-  const userlogin=async()=>{
-    const response=await fetch("http://localhost:3000/login",{ method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form }) })
+  const saveuser=async()=>{
+    const response=await fetch("http://localhost:3000/login-user",{method:"POST",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:form.username})})
     if(response.ok){
+      return;
+    }
+  
+  }
+  const userlogin=async()=>{
+    const response=await fetch("http://localhost:3000/login",{ method: 'POST',credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form }) })
+    if(response.ok){
+      await saveuser()
       toast.success('You are active!', {
         position: "top-center",
         autoClose: 5000,
