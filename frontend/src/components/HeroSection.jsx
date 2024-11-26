@@ -2,12 +2,53 @@ import React, { useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { useState } from 'react';
-
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 function HeroSection() {
    
     
 
+    useGSAP(()=>{
+        var tl=gsap.timeline()
+        tl.from(".section1 span,p",{
+            x:-100,
+            duration:0.8,
+            opacity:0,
+            stagger:0.5,
+            delay:2.7
+        })
+        tl.from(".section2",{
+            opacity:0,
+            duration:0.5
+        })
+        tl.from(".box1",{
+            opacity:0,
+            duration:0.5, 
+            x:-100
+        },"anime")
+        tl.from(".box2",{
+            opacity:0,
+            duration:0.5, 
+            x:100
+        },"anime")
+        
+        tl.from(".arrow",{
+            opacity:0,
+            duration:0.5, 
+        },"anime")
+        tl.from("input",{
+            duration:0.4,
+            opacity:0,
+            x:-100
+        },"anime1")
+        tl.from(".search",{
+            duration:0.4,
+            opacity:0,
+            x:100
+        },"anime1")
+        
 
+    })
     const routes = [
         "Avenue Road",
         "Agra Expressway",
@@ -49,7 +90,7 @@ function HeroSection() {
             >
                 <Navbar />
                 <div className='container mx-20 mt-20'>
-                    <div className='flex flex-col '>
+                    <div className='section1 flex flex-col '>
                         <span className='mb-2 text-3xl font-bold'>
                             STOP LOOKING.
                         </span>
@@ -59,8 +100,8 @@ function HeroSection() {
                         <p className='text-[14px] '>Online bus tracking,ticketing platform.</p>
 
                     </div>
-                    <div className='bg-white w-96 h-32 mt-14 flex relative'>
-                        <div className='flex flex-col text-black w-48 items-center gap-3'>
+                    <div className='section2 bg-white w-96 h-32 mt-14 flex relative'>
+                        <div className='box1 flex flex-col text-black w-48 items-center gap-3'>
                             <span className='pt-3'>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
                                     <path d="M17 20.5V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -78,13 +119,13 @@ function HeroSection() {
                             <h3 className='text-2xl text-blue-500 font-bold'>Chandigarh</h3>
                             <span className='font-bold '>From</span>
                         </div>
-                        <div className='absolute top-[44%] right-[47%] '>
+                        <div className='arrow absolute top-[44%] right-[47%] '>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
                                 <path d="M19 9H6.65856C5.65277 9 5.14987 9 5.02472 8.69134C4.89957 8.38268 5.25517 8.01942 5.96637 7.29289L8.21091 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 <path d="M5 15H17.3414C18.3472 15 18.8501 15 18.9753 15.3087C19.1004 15.6173 18.7448 15.9806 18.0336 16.7071L15.7891 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <div className='flex flex-col text-black w-48 items-center gap-3'>
+                        <div className='box2 flex flex-col text-black w-48 items-center gap-3'>
                             <span className='pt-3'>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
                                     <path d="M17 20.5V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -132,7 +173,7 @@ function HeroSection() {
                         </div>
                         <button
                             type="button"
-                            className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br    font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                            className="search text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br    font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                         >
                             Search
                         </button>

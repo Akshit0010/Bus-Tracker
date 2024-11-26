@@ -78,6 +78,7 @@ Router.post('/login-coord',async (req,res)=>{
     }
 })
 
+
 Router.post('/update-coord',async (req,res)=>{
     try {
         const {busno,latitude,longitude}=req.body

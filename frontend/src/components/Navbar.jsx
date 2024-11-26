@@ -5,6 +5,8 @@ import { jwtDecode } from 'jwt-decode'
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 <ToastContainer
     position="top-center"
     autoClose={5000}
@@ -19,6 +21,47 @@ import 'react-toastify/dist/ReactToastify.css';
 
 />
 const Navbar = () => {
+    const [loginuser, setloginuser] = useState({})
+    const [session, setsession] = useState(false)
+    const [dropdown,setdropdown]=useState(false)
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline();
+
+            // Animations for all elements on every reload
+            tl.from(".logo", {
+                y: 100,
+                duration: 1,
+                opacity: 0,
+            });
+
+            tl.from(".list li", {
+                y: 100,
+                duration: 0.6,
+                opacity: 0,
+                stagger: 0.3,
+            });
+
+            // Conditionally animate session-related elements
+            if (session) {
+                tl.from(".profile, .logout", {
+                  
+                    duration: 0.6,
+                    opacity: 0,
+                    stagger: 0.2,
+                });
+            } else {
+                tl.from(".login", {
+                   
+                    duration: 0.6,
+                    opacity: 0,
+                });
+            }
+        });
+
+        return () => ctx.revert(); // Cleanup animations on unmount
+    }, [session]); // Rerun animation whenever `session` changes
+
     const userlogout = async () => {
         try {
             let alert = confirm("Do you really want to logout?")
@@ -50,9 +93,7 @@ const Navbar = () => {
             console.log(error)
         }
     }
-    const [loginuser, setloginuser] = useState({})
-    const [session, setsession] = useState(false)
-    const [dropdown,setdropdown]=useState(false)
+    
     useEffect(() => {
         getuser()
 
@@ -91,7 +132,7 @@ const Navbar = () => {
 
         <nav className="Navbar flex justify-around bg-transparent items-center p-4 ">
             <span className="logo mx-6 text-2xl text-blue-400"><h2>Janseva</h2></span>
-            <ul className="flex flex-1 gap-3 mx-6 text-white text-sm">
+            <ul className="list flex flex-1 gap-3 mx-6 text-white text-sm">
 
 
 
@@ -102,12 +143,12 @@ const Navbar = () => {
 
             </ul>
             {!session ? <div>
-                <button className="text-black bg-yellow-300 font-bold text-[11px] px-5 py-2.5"><span className="hover:text-white"><Link to={'/login'}>LOGIN</Link></span>/<span className="hover:text-white"><Link to={'/register'}>REGISTER</Link></span></button>
+                <button className="text-black login bg-yellow-300 font-bold text-[11px] px-5 py-2.5"><span className="hover:text-white"><Link to={'/login'}>LOGIN</Link></span>/<span className="hover:text-white"><Link to={'/register'}>REGISTER</Link></span></button>
             </div> :
                 <>
                     <div className="text-blue-400 mr-16 underline text-2xl">
 
-                        <button id="dropdownDefaultButton" onClick={()=>{changedropdown()}} data-dropdown-toggle="dropdown" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-14 py-3 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button" style={{}}>Profile <svg class=" w-2.5 h-2.5 ms-3  " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <button id="dropdownDefaultButton" onClick={()=>{changedropdown()}} data-dropdown-toggle="dropdown" class=" profile text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-14 py-3 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button" style={{}}>Profile <svg class=" w-2.5 h-2.5 ms-3  " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
                         </svg>
                         </button>
@@ -138,7 +179,7 @@ const Navbar = () => {
 
                     </div>
                     <div>
-                        <button className="text-black bg-yellow-300 font-bold text-[13px] px-5 py-2.5"><span className="hover:text-white"><Link onClick={userlogout} to={'/'}>Logout</Link></span></button>
+                        <button className="text-black logout bg-yellow-300 font-bold text-[13px] px-5 py-2.5"><span className="hover:text-white"><Link onClick={userlogout} to={'/'}>Logout</Link></span></button>
                     </div></>}
 
         </nav>
@@ -148,3 +189,4 @@ const Navbar = () => {
 }
 
 export default Navbar
+
